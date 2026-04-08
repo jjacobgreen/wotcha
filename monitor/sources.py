@@ -38,7 +38,7 @@ class ClaudeCodeHookSource:
     async def events(self) -> AsyncIterator[AgentEvent]:
         text = self._raw if self._raw is not None else sys.stdin.read()
         payload = json.loads(text)
-        yield _normalise_cc_payload(payload)
+        yield normalise_cc_payload(payload)
 
 
 class TranscriptReplaySource:
@@ -61,7 +61,7 @@ class TranscriptReplaySource:
             yield AgentEvent.model_validate(data["event"])
 
 
-def _normalise_cc_payload(payload: dict) -> AgentEvent:
+def normalise_cc_payload(payload: dict) -> AgentEvent:
     """Map a raw Claude Code hook payload to an AgentEvent."""
     return AgentEvent(
         session_id=payload["session_id"],
